@@ -1,0 +1,29 @@
+#!/bin/bash 
+
+killPort=$1
+
+if [[ ${killPort} == "" ]]; then
+	echo -e "\e[34m::\e[0m Please enter a port:"
+	read killPort 
+fi
+
+if [[ ${killPort} != "" ]]; then
+	if [[ $(lsof -i:${killPort}) ]]; then
+		lsof -i:${killPort}
+	else
+		echo -e "\e[34m::\e[0m There is no process running on that port. Exiting"
+		exit;
+	fi
+else
+	echo -e "\e[34m::\e[0m You did not specify a port number. Exiting."
+	exit;
+fi	
+
+echo -e "\e[34m::\e[0m Kill process? [Y/n]"
+read ans
+if [[ ${ans^} == "Y" || ${ans^} == "" ]]; then
+	kill $(lsof -t -i:${killPort})
+	exit;
+else
+	exit;
+fi
