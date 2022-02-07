@@ -3,7 +3,7 @@
 killPort=$1
 
 if [[ ${killPort} == "" ]]; then
-	echo -e "\e[34m::\e[0m Please enter a port:"
+	echo -e "Please enter a port:"
 	read killPort 
 fi
 
@@ -11,17 +11,18 @@ if [[ ${killPort} != "" ]]; then
 	if [[ $(lsof -i:${killPort}) ]]; then
 		lsof -i:${killPort}
 	else
-		echo -e "\e[34m::\e[0m There is no process running on that port. Exiting"
+		echo -e "There is no process running on that port. Exiting"
 		exit;
 	fi
 else
-	echo -e "\e[34m::\e[0m You did not specify a port number. Exiting."
+	echo -e "You did not specify a port number. Exiting."
 	exit;
 fi	
 
-echo -e "\e[34m::\e[0m Kill process? [Y/n]"
-read ans
-if [[ ${ans^} == "Y" || ${ans^} == "" ]]; then
+echo -e "Kill process? [Y/n]"
+read killAnswer 
+killAnswer=${killAnswer:0:1}
+if [[ ${killAnswer^} == "Y" || ${killAnswer^} == "" ]]; then
 	kill $(lsof -t -i:${killPort})
 	exit;
 else
