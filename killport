@@ -21,8 +21,8 @@ fi
 
 echo -e "Kill process? [Y/n]"
 read killAnswer 
-killAnswer=${killAnswer:0:1}
-if [[ ${killAnswer^} == "Y" || ${killAnswer^} == "" ]]; then
+killAnswer=$(echo ${killAnswer:0:1} | tr '[:lower:]' '[:upper:]')
+if [[ ${killAnswer} == "Y" || ${killAnswer} == "" ]]; then
 	kill $(lsof -t -i:${killPort})
 	exit;
 else
